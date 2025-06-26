@@ -110,10 +110,12 @@ public List<MemoGetRes> getMemo (@ModelAttribute  MemoGetReq req)
 
     //Delete
    @DeleteMapping()
-    public String deleteMemo(@RequestParam(name="memo_id") int id)
+   public String deleteMemo(@RequestParam int id)
+//    public String deleteMemo(@RequestParam(name="memo_id") int id)
    {
-       log.info("memoid = {}", id);
-       return "삭제완료";
+       log.info("id = {}", id);
+       int result = memoService.delById(id);
+       return result  == 1 ? "성공" : "실패";
    }
 
 }

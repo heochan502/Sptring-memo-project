@@ -21,4 +21,5 @@ public interface MemoMapper {
     // 한개의 글을 하나의 res 리스트 객체를 만들어서 하나하나 모든 글의 타이틀과 시간을 그 리스트에 박아넣는다
     List<MemoGetRes> findAll(MemoGetReq req);
     MemoGetOneRes findById (int id);
+    int delById (int id);
 }

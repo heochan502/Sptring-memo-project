@@ -29,4 +29,9 @@
 
     </select>
 
+    <delete id="delById">
+        DELETE FROM memo
+        WHERE id = ${id}
+    </delete>
+
 </mapper>
