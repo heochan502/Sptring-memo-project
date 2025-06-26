@@ -1,11 +1,12 @@
 package com.green.memosever;
 
 
-import com.green.memosever.model.MemoPostReq;
-import com.green.memosever.model.MemoPutReq;
+import com.green.memosever.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 //RestController는 백엔드에서 데이터만 가지고올꺼니까
 //백엔드에서 화면 그리면  Controller 쓰면됨
@@ -34,37 +35,66 @@ public class MemoController {
     {
         log.info("req={}", req); // Slf4j 의사용법
         //System.out.println("postMemo" + req);
-        //int result = memoService.insMemo(req);
-        //return result == 1 ? "성공" :"실패";
-        return "입력 성공";
+        int result = memoService.save(req);
+        return result == 1 ? "성공" :"실패";
+//        return "입력 성공";
     }
 
     //Read
 
 
     //쿼리스트링 으로 받는거
-    @GetMapping()
+
     //request는 반드시 데이터는 보낸다 라는게 있어서 데이터 못보내면 에러 터짐
     // @RequestParam("search_text") 는 search_text의 키값의 파람데이터는 search 로저장한다 !
     //@RequestParam(name="search_text", required = false) required 해서 데이터 반환해서 없으면 null로 된다
     // 아무것도없이 눌렀을때 위에 위에는 null로 한다
     // 아래 @RequestParam(required = false) Integer page 요거는 리턴타입이 null이라도 들어갈수있게 만든거
 
-    public String getMemo (@RequestParam(name="search_text", required = false) String search,
-                           @RequestParam(required = false) Integer page)
-    {
-        log.info("search={}, page = {}", search, page);
+//    아래의 builder랑 효과는 똑같음
+//    대신 MemoGet 에 @Builder 말고 AllArgConstructor
+@GetMapping
+public List<MemoGetRes> getMemo (@ModelAttribute  MemoGetReq req)
+{
+ return memoService.findAll(req);
+}
 
-        //memoService.getMemoList(searchText,page);
-        return "메모 리스트";
-    }
+
+
+//public String getMemo(@ModelAttribute MemoGetReq req) {
+//
+//    log.info("req={}", req);
+//    return "메모 리스트";
+//}
+
+//    public String getMemo (@RequestParam(name="search_text", required = false) String searchText,
+//                           @RequestParam(required = false) Integer page)
+//    {
+//        log.info("search={}, page = {}", searchText, page);
+//        // void 메소드면 뒤에 . 으로 연결 할 수가없다.
+//        // 그리고 . 은 객체의 주소값을 연결하고 리턴해준다.  reference type을 반환 즉 주소값을 준다.
+//        //builder() static 매소드다 왜냐 객체화 안해서!
+//        // searchText 인스턴스 메소드
+//        MemoGetReq req = MemoGetReq.builder()
+//                                    .searchText(searchText)
+//                                    .page(page)
+//                                    .build();
+//        // 객체로 받아야하는이유가 수정의 용의성 때문에 위에서 객체로받아서 객체로 전달하면 데이터가 많아지든 적어지든 상관이없어지고
+//        // 코드의 수정이 불필요해지기 때문에 객체를 보낸다
+//        //memoService.getMemoList(searchText,page);
+//        //memoService.getMemoList(req)
+//        return "메모 리스트";
+//    }
+
 
     @GetMapping("/{id}")
     // @PathVariable(name="id") <- 얘도 이런식으로 된다
-    public String getOneMemo(@PathVariable String id)
+//    public String getOneMemo(@PathVariable int id)
+    public MemoGetOneRes getOneRes(@PathVariable int id)
     {
         log.info("id={}", id);
-        return "메모하나";
+        return memoService.findById(id);
+        //return "메모하나";
     }
 
 
