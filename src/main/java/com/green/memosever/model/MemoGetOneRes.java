@@ -8,7 +8,7 @@ import lombok.Setter;
 
 public class MemoGetOneRes {
     private String title;
-    private String content;
+    private String ctnts;
     private String createdAt;
 
 }

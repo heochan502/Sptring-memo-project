@@ -26,6 +26,7 @@ public class MemoGetReq {
 //        this.page = page;
 //    }
 
+    //아래는 프론트에서 스네이크 케이스로 만들어져서 보내는것에 대한걸 변환해주는거 search_text -> searchText
     @ConstructorProperties({"search_text", "page"})
     public MemoGetReq(String searchText, Integer page) {
         this.searchText = searchText;

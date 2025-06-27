@@ -1,6 +1,7 @@
 package com.green.memosever;
 
 
+import com.green.memosever.config.model.ResultResponse;
 import com.green.memosever.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,12 +32,13 @@ public class MemoController {
     // (post) /api/
     // json으로 받는거
     @PostMapping ()
-    public String postMemo (@RequestBody MemoPostReq req)
+    public ResultResponse<Integer> postMemo (@RequestBody MemoPostReq req)
     {
         log.info("req={}", req); // Slf4j 의사용법
         //System.out.println("postMemo" + req);
         int result = memoService.save(req);
-        return result == 1 ? "성공" :"실패";
+//        return result == 1 ? "성공" :"실패";
+        return new ResultResponse<>("삽입 성공", result);
 //        return "입력 성공";
     }
 
@@ -54,9 +56,12 @@ public class MemoController {
 //    아래의 builder랑 효과는 똑같음
 //    대신 MemoGet 에 @Builder 말고 AllArgConstructor
 @GetMapping
-public List<MemoGetRes> getMemo (@ModelAttribute  MemoGetReq req)
+public ResultResponse<List<MemoGetRes>> getMemo (@ModelAttribute  MemoGetReq req)
 {
- return memoService.findAll(req);
+    List<MemoGetRes> result = memoService.findAll(req);
+// return memoService.findAll(req);
+    String message = String.format("rows: %d", result.size());
+    return new ResultResponse<>(message, result);
 }
 
 
@@ -90,10 +95,12 @@ public List<MemoGetRes> getMemo (@ModelAttribute  MemoGetReq req)
     @GetMapping("/{id}")
     // @PathVariable(name="id") <- 얘도 이런식으로 된다
 //    public String getOneMemo(@PathVariable int id)
-    public MemoGetOneRes getOneRes(@PathVariable int id)
+    public ResultResponse<MemoGetOneRes> getOneRes(@PathVariable int id)
     {
         log.info("id={}", id);
-        return memoService.findById(id);
+        MemoGetOneRes result = memoService.findById(id);
+//        return memoService.findById(id);
+        return new ResultResponse<>("조회 성공", result);
         //return "메모하나";
     }
 
@@ -102,20 +109,25 @@ public List<MemoGetRes> getMemo (@ModelAttribute  MemoGetReq req)
     //Update
 
    @PutMapping
-    public String putMemo(@RequestBody MemoPutReq req)
+    public ResultResponse<Integer> putMemo(@RequestBody MemoPutReq req)
    {
-       log.info("memoId={},title={},content={} ", req.getMemoId() ,req.getTitle(), req.getTitle());
-       return "입력완료";
+       log.info("memoId={},title={},content={} ",req.getMemoId(), req.getTitle(), req.getCtnts());
+       int result = memoService.modify(req);
+       // controller는 성공만 적고 실패는 다르게 through catch 로 해서 설정해서 처리한다
+        return new ResultResponse<>("수정성공", result);
+
+//       return result == 1 ? "성공" : "실패";
    }
 
     //Delete
    @DeleteMapping()
-   public String deleteMemo(@RequestParam int id)
+   public ResultResponse<Integer> deleteMemo(@RequestParam int id)
 //    public String deleteMemo(@RequestParam(name="memo_id") int id)
    {
        log.info("id = {}", id);
        int result = memoService.delById(id);
-       return result  == 1 ? "성공" : "실패";
+      // controller는 성공만 적고 실패는 다르게 through catch 로 해서 설정해서 처리한다
+       return new ResultResponse<>("삭제 성공", result);
    }
 
 }

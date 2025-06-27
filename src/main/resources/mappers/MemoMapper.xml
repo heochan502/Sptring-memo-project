@@ -9,7 +9,7 @@
     <insert id="save">
         INSERT INTO memo
         SET title = #{title},
-                content = #{content}
+                content = #{ctnts}
     </insert>
 
     <select id="findAll">
@@ -31,7 +31,14 @@
 
     <delete id="delById">
         DELETE FROM memo
-        WHERE id = ${id}
+        WHERE id = #{id}
     </delete>
+
+    <update id="modify">
+        UPDATE memo
+        SET title = #{title},
+            content = #{ctnts}
+        WHERE id = #{memoId}
+    </update>
 
 </mapper>

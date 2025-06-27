@@ -1,10 +1,7 @@
 package com.green.memosever;
 
 
-import com.green.memosever.model.MemoGetOneRes;
-import com.green.memosever.model.MemoGetReq;
-import com.green.memosever.model.MemoGetRes;
-import com.green.memosever.model.MemoPostReq;
+import com.green.memosever.model.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -22,4 +19,5 @@ public interface MemoMapper {
     List<MemoGetRes> findAll(MemoGetReq req);
     MemoGetOneRes findById (int id);
     int delById (int id);
+    int modify (MemoPutReq req);
 }

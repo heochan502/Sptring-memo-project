@@ -11,5 +11,5 @@ import lombok.ToString;
 public class MemoPutReq {
     private int memoId;
     private String title;
-    private String content;
+    private String ctnts;
 }

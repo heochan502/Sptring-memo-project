@@ -1,9 +1,6 @@
 package com.green.memosever;
 
-import com.green.memosever.model.MemoGetOneRes;
-import com.green.memosever.model.MemoGetReq;
-import com.green.memosever.model.MemoGetRes;
-import com.green.memosever.model.MemoPostReq;
+import com.green.memosever.model.*;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,7 +30,9 @@ public class MemoService {
         return memoMapper.delById(id);
     }
 
-
+    public int modify (MemoPutReq req) {
+        return memoMapper.modify(req);
+    }
 
 
 
