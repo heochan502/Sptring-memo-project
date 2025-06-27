@@ -121,7 +121,7 @@ public ResultResponse<List<MemoGetRes>> getMemo (@ModelAttribute  MemoGetReq req
 
     //Delete
    @DeleteMapping()
-   public ResultResponse<Integer> deleteMemo(@RequestParam int id)
+   public ResultResponse<Integer> deleteMemo(@RequestParam(name="memo_id") int id)
 //    public String deleteMemo(@RequestParam(name="memo_id") int id)
    {
        log.info("id = {}", id);
